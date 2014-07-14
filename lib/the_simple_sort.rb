@@ -7,10 +7,10 @@ module TheSimpleSort
     extend ActiveSupport::Concern
 
     included do
-      scope :recent, ->(field = nil) { order("#{ field || :id } DESC") }
-      scope :old,    ->(field = nil) { order("#{ field || :id } ASC")  }
+      scope :recent, ->(field = nil) { reorder("#{ field } DESC") if field }
+      scope :old,    ->(field = nil) { reorder("#{ field } ASC")  if field }
 
-      scope :simple_sort, ->(params, default_sort_field = :created_at){
+      scope :simple_sort, ->(params, default_sort_field = nil){
         sort_column = params[:sort_column]
         sort_type   = params[:sort_type]
 
