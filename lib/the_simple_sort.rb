@@ -7,8 +7,8 @@ module TheSimpleSort
     extend ActiveSupport::Concern
 
     included do
-      scope :recent, ->(field = :id) { reorder("#{ field } DESC") if field }
-      scope :old,    ->(field = :id) { reorder("#{ field } ASC")  if field }
+      scope :recent, ->(field = :id) { reorder("#{ field } DESC") if field && self.columns.map(&:name).include?(field.to_s) }
+      scope :old,    ->(field = :id) { reorder("#{ field } ASC")  if field && self.columns.map(&:name).include?(field.to_s) }
 
       scope :simple_sort, ->(params, default_sort_field = nil){
         sort_column = params[:sort_column]
