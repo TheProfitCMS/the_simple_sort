@@ -7,6 +7,8 @@ module TheSimpleSort
     extend ActiveSupport::Concern
 
     included do
+      scope :mysql_random, ->{ reorder('RAND()') }
+
       scope :recent, ->(field = :id) { reorder("#{ field } DESC") if field && self.columns.map(&:name).include?(field.to_s) }
       scope :old,    ->(field = :id) { reorder("#{ field } ASC")  if field && self.columns.map(&:name).include?(field.to_s) }
 
